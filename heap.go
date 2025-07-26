@@ -83,6 +83,21 @@ func (h *Heap[T]) Pop() (T, error) {
 	return v, nil
 }
 
+func fill[T any](s []T, v T) {
+	for i := range s {
+		s[i] = v
+	}
+}
+
+func (h *Heap[T]) Truncate(n int) {
+	if len(h.s) < n {
+		return
+	}
+	var zero T
+	fill(h.s[n:], zero)
+	h.s = h.s[:n]
+}
+
 func up[T any](cmp func(T, T) bool, s []T) {
 	for cur := len(s) - 1; cur > 0; {
 		switch parent := (cur - 1) / 2; cmp(s[cur], s[parent]) {
