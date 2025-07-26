@@ -68,12 +68,15 @@ func (h *Heap[T]) Push(v T) {
 }
 
 func (h *Heap[T]) Pop() (T, error) {
+	var zero T
 	if len(h.s) == 0 {
-		var zero T
 		return zero, fmt.Errorf("no more entries of type %T", zero)
 	}
 	v := h.s[0]
 	h.s[0] = h.s[len(h.s)-1]
+
+	h.s[len(h.s)-1] = zero
+
 	h.s = h.s[:len(h.s)-1]
 
 	down(h.cmp, h.s)
